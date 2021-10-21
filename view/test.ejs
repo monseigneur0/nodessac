@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <h1>EJS의 test 파일입니다. </h1>
+        <h3> <%=para2%></h3>
+        <div style="background-color: : yellow;">
+            <%
+                for ( var i = 0; i < para1; i++ ){
+                    __append( "<h1>" + i + "</h1><br>" );
+                } 
+            %>
+        </div>
+        <img src="./static/cat.jpg">
+    </body>
+</html>
