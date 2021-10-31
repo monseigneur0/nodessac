@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            .everymsg {
+                color:teal;
+                background-color: antiquewhite;
+            }
+            .systemmsg {
+                color:red;
+                background-color: yellow;
+            }
+            .mymsg {
+                color:blue;
+                background-color: green;
+            }
+        </style>
+
+        <script>
+            var socket_id;
+            var socket = io.connect();
+            // on : 통신을 받는다 수신
+            // emit :통신을 보낸다 송신 aaa라는 것을 보낸다
+            socket.emit( "aaa", function(data){
+                console.log( data );
+            });
+            socket.on( "connect", function(){
+                console.log( "server connected!" );
+            });
+
+            // socket.on( "newMsg", ( data ) => {
+            //     document.getElementById("content").append( data );
+            // });
+            socket.on( "skcreated", ( data ) => {
+                alert(data);
+                socket_id = data;
+            });
+
+            socket.on( "myMsg", ( data ) => {
+                $('#content').append("<p class='mymsg'>" + data["socketid"] + "</p><p class='mymsg'>"+ data["msg"])
+                console.log("myMsg")
+                } );
+
+            socket.on( "newMsg", ( data ) => {
+                console.log("newMsg")
+                if ( socket_id != data["socketid"] ){
+                    $('#content').append("<p class='everymsg'>" + data["socketid"] + "</p><p class='everymsg'>"+ data["msg"])
+                }
+            } );
+
+            socket.on( "systemMsg", ( data ) => {
+                console.log("systemMsg")
+                io.on(
+                    $('#content').append("<p class='systemmsg'>" + data["socketid"] + "</p><p class='systemmsg'>"+ data["msg"])
+            )} );
+
+            
+            function go(){
+                socket.emit( "a", document.getElementsById( "abc").value);
+            }
+            function a(){
+                socket.emit( "sendMsg", document.getElementById("chat").value );
+            }
+            //socket.emit( "event", { name: "홍길동"} );
+        </script>
+    </head>
+
+
+    <body>
+        <h1> Socket View 파일입니다. </h1>
+        <input type="text" id="chat" placeholder="채팅 메세지 입력">
+            <div id ="content"><br></div>
+        <button type="button" onclick="a();">버튼</button>
+    </body>
+</html>
+

@@ -108,9 +108,9 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="genderid">성별</label>
-                                        <select class="form-select d-block w-100" id="genderid"  name="gender">
-                                            <option value="M" selected>남자</option>
-                                            <option value="W">여자</option>
+                                        <select class="form-select d-block w-100" id="gender"  name="gender">
+                                            <option value="male" selected>남자</option>
+                                            <option value="female">여자</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             성별을 선택해주세요.
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="root">신분</label>
-                                    <select class="form-select d-block w-100" name="teach">
+                                    <select class="form-select d-block w-100 " name="teach">
                                         <option value="S">학생</option>
                                         <option value="C">손님</option>
                                     </select>
@@ -127,13 +127,10 @@
                                     </div>
                                 </div>  
                                 <div class="col-md-4 mb-3">
-                                    <label for="root">가입 경로</label>
-                                    <select class="form-select d-block w-100" id="root">
-                                        <option value="s">검색</option>
-                                        <option value="c">카페</option>
-                                    </select>
+                                    <label for="root"> 생년월일</label>
+                                    <input type="date" name="birthday" value="2021-10-21" min="1979-09-22" max="2021-10-22">
                                     <div class="invalid-feedback">
-                                        가입 경로를 선택해주세요.
+                                        생년월일를 선택해주세요.
                                     </div>
                                 </div>
                                 <hr class="mb-4">

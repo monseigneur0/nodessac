@@ -8,6 +8,16 @@ const port = 8000;
 const body = require( "body-parser");
 const { connect } = require('http2');
 // 폼전송을 위한 외부 모듈
+var mysql = require( 'mysql' );
+
+var conn = mysql.createConnection({
+	user: 'root',
+	password: 'rlaxkrgh1!',
+	database: 'ssac'
+});
+
+
+
 app.use( body.urlencoded( { extended:false } ) );
 app.use( body.json() );
 
@@ -39,21 +49,22 @@ app.post( '/form22', ( req, res ) => {
     res.send( "hi");
 });
 
-// app.get( '/join', ( req, res )   => {
-//     console.log("join")
-//     console.log(req.query.id)
-//     res.render( 'join' );
-// });
-//req.body.앞에서지정한이름(포스트로 넘어왔을때)
+app.get( '/join', ( req, res )   => {
+    console.log("join")
+    res.render( 'join' );
+});
+// req.body.앞에서지정한이름(포스트로 넘어왔을때)
 
-app.post( '/join', function(req, res){
+
+// app.post( '/rec', function(req, res){
+app.post( '/rec', (req, res) => {
     console.log(req. body)
     console.log("Post form 들어옴");
-    var id = req.body.id;s
-    var name = req.body.name;
-
-    var sql = "INSERT INTO member VALUES( '"+ id +"','"+name +"','2021-10-21' );";
-    connect.query(sql, function(err) {
+    
+    var sql = "INSERT INTO member (id, pw, name, gender, birthday,email) VALUES( '"+ req.body.id +"','"+req.body.pw +"','"+ req.body.name +"','"+ req.body.gender +"','"+ req.body.birthday +"','"+ req.body.email +"');";
+    // var param = [req.body.id, req.body.pw, req.body.name, req.body.gender ]
+    console.log(sql)
+    conn.query(sql, function(err) {
         if( err ){
             console.log( 'failed!! : ' + err );
         }
@@ -61,7 +72,8 @@ app.post( '/join', function(req, res){
             console.log( "data inserted!" );
         }
     });
-    res.render('signup', {id: id, name: name});
+    res.send( req.body.name  );
 });
-
-app
+app.post('/login', (req,res) => {
+    
+})
