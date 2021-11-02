@@ -19,50 +19,44 @@
 
         <script>
             var socket_id;
+            const username="<%username%>";
+            console.log('username: ${username} is here');
+
             var socket = io.connect();
             // on : 통신을 받는다 수신
             // emit :통신을 보낸다 송신 aaa라는 것을 보낸다
-            socket.emit( "aaa", function(data){
-                console.log( data );
-            });
-            socket.on( "connect", function(){
-                console.log( "server connected!" );
-            });
-
-            // socket.on( "newMsg", ( data ) => {
-            //     document.getElementById("content").append( data );
+            //메세지 받을 때 
+            // socket.on( "sendMsg", ( msg ) =>{
+            //     io.emit( "newMsg", { socketid : socket.id, msg: msg} );
+            //     socket.emit('myMsg', {msg: msg})
+            //     alert( msg );
             // });
-            socket.on( "skcreated", ( data ) => {
+            socket.on("sendMsg", function(data){
                 alert(data);
-                socket_id = data;
+            });
+            socket.on("skcreated", ( data ) => {
+                socket_id = data.socketid; 
+                alert(data);
+                socket.emit("matchid", {id:data.id, username: username});
+            });
+            //새로운 메세지 전송. 소켓이 다르면 모두메세지
+            socket.on( "newMsg", ( data ) => {
+                if (socket_id != data["socketid"] ) {
+                    $("#content").append("<p class='everymsg'>" + data["socketid"] +"</p><p class='everymsg'>" + data["msg"] +"</p>");
+                } 
+            });
+            //시스템메세지
+            socket.on( "systemMsg", ( data ) => {
+                        //document.getElementById("content").append(data+"<br>");
+                $("#content").append("<p class='systemmsg'>" + data+"</p>");
             });
 
-            socket.on( "myMsg", ( data ) => {
-                $('#content').append("<p class='mymsg'>" + data["socketid"] + "</p><p class='mymsg'>"+ data["msg"])
-                console.log("myMsg")
-                } );
-
-            socket.on( "newMsg", ( data ) => {
-                console.log("newMsg")
-                if ( socket_id != data["socketid"] ){
-                    $('#content').append("<p class='everymsg'>" + data["socketid"] + "</p><p class='everymsg'>"+ data["msg"])
-                }
-            } );
-
-            socket.on( "systemMsg", ( data ) => {
-                console.log("systemMsg")
-                io.on(
-                    $('#content').append("<p class='systemmsg'>" + data["socketid"] + "</p><p class='systemmsg'>"+ data["msg"])
-            )} );
-
-            
-            function go(){
-                socket.emit( "a", document.getElementsById( "abc").value);
-            }
+            //클릭시 함수 발동, Chat내용
             function a(){
                 socket.emit( "sendMsg", document.getElementById("chat").value );
+                document.getElementById("chat").value="";
+                $("#content").append("<p class='mymsg'>" + data["socketid"] +"</p><p class='mymsg'>" + $("#chat").val() +"</p>");
             }
-            //socket.emit( "event", { name: "홍길동"} );
         </script>
     </head>
 

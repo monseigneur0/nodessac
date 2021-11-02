@@ -54,8 +54,6 @@ app.get( '/join', ( req, res )   => {
     res.render( 'join' );
 });
 // req.body.앞에서지정한이름(포스트로 넘어왔을때)
-
-
 // app.post( '/rec', function(req, res){
 app.post( '/rec', (req, res) => {
     console.log(req. body)
