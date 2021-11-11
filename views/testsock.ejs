@@ -1,26 +1,76 @@
 <html>
     <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>카카톡</title>
         <style>
+            body {
+                min-height: 100vh;
+            
+                background: -webkit-gradient(linear, left bottom, right top, from(#db92be), to(#6c1d4d));
+                background: -webkit-linear-gradient(bottom left, #db92be 0%, #6c1d4d 100%);
+                background: -moz-linear-gradient(bottom left, #db92be 0%, #6c1d4d 100%);
+                background: -o-linear-gradient(bottom left, #db92be 0%, #6c1d4d 100%);
+                background: linear-gradient(to top right, #db92be 0%, #6c1d4d 100%);
+            }
+            .input-form {
+                max-width: 680px;
+
+                margin-top: 30px;
+                padding: 32px;
+
+                background: #fff;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+                -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+                box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+            }
             .everymsg {
                 color:teal;
                 background-color: antiquewhite;
             }
             .systemmsg {
-                color:red;
+                color:pink;
                 background-color: yellow;
+                font-size: 10px;
             }
             .mymsg {
                 color:blue;
                 background-color: green;
             }
+
+            #chatLog{
+                width: 50%; 
+                height: 500px;
+            }
+            #name{ 
+                width: 10%; 
+            }
+
+            #message{ 
+                width: 35%; 
+            }
+
+            .btn.btn-info{
+                width: 50%;
+                height: 45px;
+                font-size: 20px;
+            }
         </style>
 
         <script>
             var socket_id;
-            const username="<%username%>";
-            console.log('username: ${username} is here');
+            const username="<%=username%>";
+            console.log('username:${username} <%=username%> is here');
 
             var socket = io.connect();
             // on : 통신을 받는다 수신
@@ -31,17 +81,16 @@
             //     socket.emit('myMsg', {msg: msg})
             //     alert( msg );
             // });
-            socket.on("sendMsg", function(data){
-                alert(data);
-            });
             socket.on("skcreated", ( data ) => {
                 socket_id = data.socketid; 
-                alert(data);
-                socket.emit("matchid", {id:data.id, username: username});
+                alert("소켓 생김"+ socket_id + "<%=username%>");
+                socket.emit("matchid", { username: username });
+                //id는 이미 가지고 있다.
             });
             //새로운 메세지 전송. 소켓이 다르면 모두메세지
             socket.on( "newMsg", ( data ) => {
                 if (socket_id != data["socketid"] ) {
+                    console.log(data["socketid"]);
                     $("#content").append("<p class='everymsg'>" + data["socketid"] +"</p><p class='everymsg'>" + data["msg"] +"</p>");
                 } 
             });
@@ -50,22 +99,82 @@
                         //document.getElementById("content").append(data+"<br>");
                 $("#content").append("<p class='systemmsg'>" + data+"</p>");
             });
-
+            socket.on("newulist",(data)=>{
+                $(".userinfo").empty();
+                $(".userlist").empty();
+                console.log(data.ulist);
+                console.log(data.left_ulist);
+                
+                for(let i = 0; i<data.ulist.length; i++){
+                    if(data.ulist[i].id===socket_id){
+                        $(".userinfo").text(data.ulist[i].name);
+                    }
+                    else{
+                        $(".userlist").append("<div class='ulist'></div>");
+                        $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
+                    }
+                }
+                if(data.left_ulist){
+                    for(let i=0; i<data.left_ulist.length; i++){
+                        $(".leftuserlist").append("<div class='ulist'></div>");
+                        $(".leftuserlist").find(".ulist:last-child").text(data.ulist[i].name);
+                    }
+                }
+            });
             //클릭시 함수 발동, Chat내용
             function a(){
+                $("#content").append("<p class='mymsg btn btn-success flex-row-reverse' >"+ "<%=username%>" +"</p><p class='mymsg btn btn-success flex-row-reverse'>" + $("#chat").val() +"</p>");
                 socket.emit( "sendMsg", document.getElementById("chat").value );
                 document.getElementById("chat").value="";
-                $("#content").append("<p class='mymsg'>" + data["socketid"] +"</p><p class='mymsg'>" + $("#chat").val() +"</p>");
+                console.log($("#chat").val());
             }
         </script>
     </head>
 
 
     <body>
-        <h1> Socket View 파일입니다. </h1>
-        <input type="text" id="chat" placeholder="채팅 메세지 입력">
-            <div id ="content"><br></div>
-        <button type="button" onclick="a();">버튼</button>
+        <div class="row">
+            <div class="input-form col-md-12 mx-auto">
+                <h4 class="mb-3">나의 정보</h4>
+                <div class="container pt-0">  
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <form action="upload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="userfile" >
+                                <input type="submit" value="전송">
+                            </form>
+                            <img src="elonm.jpg" >                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-form col-md-12 mx-auto">
+                <h4 class="mb-3">Socket View 파일입니다.</h4>
+                <div class="container pt-0">  
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                        </div>
+                    </div>
+                    <div id ="content"><br></div>
+                        <input type="text" id="chat" placeholder="채팅 메세지 입력">
+                    </div>
+                    <div id ="userinfo"><br></div>
+                    <div id ="userlist"><br></div>
+                    <div id ="leftuserlist"><br></div>
+
+
+                
+                    <button type="button" onclick="a();">전송</button>
+                </div>
+            </div>
+        </div>
+       
+            <footer class="my-3 text-center text-small">
+                <p class="mb-1">&copy; ㅋㅋㅇ톡</p>
+            </footer>
+        </div>
     </body>
 </html>
-

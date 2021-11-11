@@ -4,9 +4,14 @@
     </head>
     <body>
         <form action="../chat" method="post">
-        <h1> 닉네임을 입력하세요 </h1>
-        <input type="text" name="name"  placeholder="닉네임 입력하세요.">
-            <div id ="content"><br></div>
-        <button type="submit" >버튼</button>
+            <h1> 닉네임을 입력하세요 </h1>
+            <input type="text" name="name"  placeholder="닉네임 입력하세요.">
+
+            <button type="submit" >버튼</button>
+        </form>
+        <form action="upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="userfile" >
+            <input type="submit" value="전송">
+        </form>
     </body>
 </html>
