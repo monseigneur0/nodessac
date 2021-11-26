@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a8ae8c07-3603-47a1-8bb2-dfbc72bd00e6" name="awsnodet">
+        <fileTransfer accessType="SFTP" host="54.180.147.246" port="22" sshConfigId="b361cd2b-0bf0-4551-b140-2f34859385c3" sshConfig="ubuntu@54.180.147.246:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -4,7 +4,7 @@
 //없으면 npm install express등 
 const express = require( 'express');
 const app = express();
-const port = 8000;
+const port = 8001;
 const body = require( "body-parser");
 const { connect } = require('http2');
 // 폼전송을 위한 외부 모듈
@@ -32,7 +32,7 @@ app.get( '/', ( req, res )   => {
 });
 // 파이썬의 managepy 서버 열어라 app도 변수, express도 불러온 함수
 app.listen( port, () => {
-    console.log("8000!");
+    console.log("8001!");
 } );
 
 app.get( '/test', ( req, res )   => {

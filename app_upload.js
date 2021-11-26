@@ -1,6 +1,6 @@
 const express = require( 'express');
 const app = express();
-const port = 8000;
+const port = 8001;
 const path = require( "path" );
 const multer = require( 'multer' ); //모듈 불러오기
 
@@ -36,7 +36,7 @@ app.get( '/', ( req, res )   => {
 });
 // 파이썬의 managepy 서버 열어라 app도 변수, express도 불러온 함수
 app.listen( port, () => {
-    console.log("8000!");
+    console.log("8001!");
 } );
 app.post("/upload", upload_multer.single("userfile") , (req, res) => {
     //upload_multer.single : 단일파일처리
