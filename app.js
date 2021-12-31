@@ -4,7 +4,7 @@
 //없으면 npm install express등 
 const express = require( 'express');
 const app = express();
-const port = 8001;
+const port = 8003;
 const body = require( "body-parser");
 const { connect } = require('http2');
 // 폼전송을 위한 외부 모듈
@@ -15,7 +15,6 @@ var conn = mysql.createConnection({
 	password: 'rlaxkrgh1!',
 	database: 'ssac'
 });
-
 
 
 app.use( body.urlencoded( { extended:false } ) );
@@ -73,5 +72,4 @@ app.post( '/rec', (req, res) => {
     res.send( req.body.name  );
 });
 app.post('/login', (req,res) => {
-    
 })

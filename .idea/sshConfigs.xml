@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="54.180.147.246" id="b361cd2b-0bf0-4551-b140-2f34859385c3" keyPath="$USER_HOME$/Downloads/ssactac.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" />
+      <sshConfig host="15.165.77.159" id="b361cd2b-0bf0-4551-b140-2f34859385c3" keyPath="$USER_HOME$/Downloads/ssactac.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" />
     </configs>
   </component>
 </project>

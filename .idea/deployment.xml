@@ -5,7 +5,7 @@
       <paths name="awsnodet">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/nodessac/nodessac" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/ubuntu/sacnodenew/nodessac" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

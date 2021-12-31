@@ -1,6 +1,6 @@
 const express = require( 'express');
 const app = express();
-const port = 8001;
+const port = 8003;
 const ejs = require("ejs");         // ejs 모듈 요청
 const http = require( "http").Server( app );
 const io = require( "socket.io")( http );
